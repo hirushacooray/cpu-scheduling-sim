@@ -83,6 +83,8 @@ $(document).ready(
 
                 process = queue.shift();
                 console.log(process);
+                
+                // Simulate running and check 
                 for(var i = 0; i < process.burstTime; i++){
                     time++
                     addToQueue();
@@ -206,8 +208,10 @@ $(document).ready(
                         }
                     });
                 }
-
+                 // shortest burst time
                 let process = queue[0];
+                
+                // remove
                 queue.splice(0, 1);
                 
 
@@ -287,7 +291,6 @@ $(document).ready(
                 );
             });
             function getProcessToQueue() {
-
                 for(var i = processList.length - 1; i >= 0; i--) {
                     if(processList[i].arrivalTime === time) {
                         console.log(processList[i])
@@ -315,7 +318,7 @@ $(document).ready(
                         process = queue[0];
                         queue.splice(0, 1);
                         // process=queue.pop();
-                        process.completedTime=time+1;
+                        process.completedTime = time+1;
                         completedList.push(process);
 
                     } else if(queue[0].burstTime>1){
@@ -436,7 +439,8 @@ $(document).ready(
                         process = queue[0];
                         queue.splice(0, 1);
                         process.completedTime=time+process.burstTime;
-                            
+                        
+                        // Run process
                         for (let index = 0; index < process.burstTime; index++) {
                             time=time+1;
                             getProcessToQueue();
@@ -453,6 +457,7 @@ $(document).ready(
                             process.completedTime=time+timeQuantumVal;
                             completedList.push(process);
 
+                            // Run process
                             for (let index = 0; index < timeQuantumVal; index++) {
                                 time=time+1;
                                 getProcessToQueue();
@@ -465,6 +470,7 @@ $(document).ready(
                             process=queue[0];
                             queue[0].burstTime=process.burstTime-timeQuantumVal;
 
+                            // run process
                             for (let index = 0; index < timeQuantumVal; index++) {
                                 time=time+1;
                                 getProcessToQueue();
