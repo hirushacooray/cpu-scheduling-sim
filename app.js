@@ -70,62 +70,44 @@ $(document).ready(
 
         // Begin First Come First Served
         function firstComeFirstServed(){
+
             var time = 0;
-            var completedTime = 0;
+            var queue = [];
+            var completedList = [];
 
-            processList.sort(function(a, b){
-                if (a.arrivalTime > b.arrivalTime) {
-                    return 1;
-                } else {
-                    return -1;
+            while (processList.length > 0 || queue.length > 0) {
+                while (queue.length == 0) {
+                    time++;
+                    addToQueue();
                 }
-            });
 
-            $.each(processList, function(key, process){
-                if(key === 0) {
-                    completedTime += process.arrivalTime + process.burstTime;
-                } else {
-                    completedTime += process.burstTime;
-                }
-                process.completedTime = completedTime;
+                process = queue.shift();
+                console.log(process);
+                for(var i = 0; i < process.burstTime; i++){
+                    time++
+                    addToQueue();
+                }   
+                process.completedTime = time;
                 process.turnAroundTime = process.completedTime - process.arrivalTime;
                 process.waitingTime = process.turnAroundTime - process.burstTime;
-            });
+                completedList.push(process);
+            }
 
-            // var time = 0;
-            // var readyQueue = [];
-            // var completedList = [];
+            function addToQueue() {
+                for(var i = 0; i < processList.length; i++) {
+                    if(time >= processList[i].arrivalTime) {
+                        let process = {
+                            processID: processList[i].processID, 
+                            arrivalTime: processList[i].arrivalTime, 
+                            burstTime: processList[i].burstTime
+                        }
+                        processList.splice(i, 1);
+                        queue.push(process);
+                    }
+                }
+            }
 
-            // while (processList.length > 0 || readyQueue.length > 0) {
-            //     while (readyQueue.length == 0) {
-            //         time++;
-            //         addToQueue();
-            //     }
-
-            //     process = readyQueue.slice(0, 1);
-            //     console.log(process);
-            //     for(var i = 0; i < process.burstTime; i++){
-            //         time++
-            //         addToQueue();
-            //     }   
-            //     process.completedTime = time;
-            //     process.turnAroundTime = process.completedTime - process.arrivalTime;
-            //     process.waitingTime = process.turnAroundTime - process.burstTime;
-            //     completedList.push(process);
-            // }
-
-            // function addToQueue() {
-            //     if (processList.length != 0) {
-            //         $.each(processList, function(key, process){
-            //             if (time >= process.arrivalTime) {
-            //                 readyQueue.push(process);
-            //                 processList.slice(key, 1);
-            //             }
-            //         })
-            //     }
-            // }
-
-            $.each(processList, function(key, process){
+            $.each(completedList, function(key, process){
                 $('#tblResults > tbody:last-child').append(
                     `<tr>
                         <td id="tdProcessID">${process.processID}</td>
@@ -142,9 +124,8 @@ $(document).ready(
             var avgTurnaroundTime = 0;
             var avgWaitingTime = 0;
             var maxCompletedTime = 0;
-            var throughput = 0;
 
-            $.each(processList, function(key, process){
+            $.each(completedList, function(key, process){
                 if (process.completedTime > maxCompletedTime) {
                     maxCompletedTime = process.completedTime;
                 }
@@ -152,9 +133,9 @@ $(document).ready(
                 avgWaitingTime = avgWaitingTime + process.waitingTime;
             });
 
-            $('#avgTurnaroundTime').val( avgTurnaroundTime / processList.length );
-            $('#avgWaitingTime').val( avgWaitingTime / processList.length );
-            $('#throughput').val(processList.length / maxCompletedTime);
+            $('#avgTurnaroundTime').val( avgTurnaroundTime / completedList.length );
+            $('#avgWaitingTime').val( avgWaitingTime / completedList.length );
+            $('#throughput').val(completedList.length / maxCompletedTime);
         }
 
         function shortestJobFirst(){
