@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" type="text/javascript"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-text">
+                CPU Scheduling Simulator
+            </span>
+            <span class="navbar-text">
+                <a class="" href="">View Report</a>
+            </span>
+        </nav>
+    </header>
+    <div class="container">
+        
+        <div class="row mb-5 pt-3" id="main">
+            <div class="col-9 process-list-container">
+                <table class="table table-bordered" id="tblProcessList">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Process ID</th>
+                            <th scope="col">Arrival Time</th>
+                            <th scope="col">Burst Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control mb-2" type="number" min="0" id="processID" placeholder="Process ID" required>
+                    </div>
+                    <div class="col">
+                        <input class="form-control mb-2" type="number" min="0" id="arrivalTime" placeholder="Arrival Time">
+                    </div>
+                    <div class="col">
+                        <input class="form-control mb-2" type="number" min="0" id="burstTime" placeholder="Burst Time">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" id="btnAddProcess">Add Process</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 border border-primary p-3 mb-2">
+                <div class="form">
+                    <div class="form-group">
+                        <label for="algorithmSelector">Select Scheduling Method</label>
+                        <select class="form-control" id="algorithmSelector">
+                            <option value="optFCFS">First Come First Served</option>
+                            <option value="optSJF">Shortest Job First</option>
+                            <option value="optSRTF">Shortest Remaining Time First</option>
+                            <option value="optRR">Round Robin</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-group-time-quantum">
+                        <label class="mt-1  ">Time Quantum :</label>
+                        <input class="form-control mb-2" type="number" min="0" max="9" id="timeQuantum" >
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" id="btnCalculate">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-primary">
+            <div class="col-md-9">
+                <table class="table table-bordered" id="tblResults">
+                    <thead>
+                        <tr>
+                            <th scope="col">Process ID</th>
+                            <th scope="col">Arrival Time</th>
+                            <th scope="col">Burst Time</th>
+                            <th scope="col">Completed Time</th>
+                            <th scope="col">Waiting Time</th>
+                            <th scope="col">Turnaround Time</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3 border border-primary p-3 mb-2">
+                <div class="form">
+                    <div class="form-group">
+                        <label for="avgTurnaroundTime">Average Turnaround Time</label>
+                        <input class="form-control" id="avgTurnaroundTime" type="number" placeholder="0" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="avgTurnaroundTime">Average Waiting Time</label>
+                        <input class="form-control" id="avgWaitingTime" type="number" placeholder="0" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="avgTurnaroundTime">Throughput</label>
+                        <input class="form-control" id="throughput" type="number" placeholder="0" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer bg-light p-2 mt-5">
+
+        
+        <div class="footer-copyright text-center py-3">
+           Student ID: 517138609
+        </div>
+        
+    
+    </footer>
+    
+</body>
+</html>
