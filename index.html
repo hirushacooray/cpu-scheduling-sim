@@ -125,13 +125,15 @@
             return (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1);
         }
 
-        function openInBrowser(target) {
-            window.open("googlechrome://navigate?url=" + target, "_system");
+        function openInBrowser(target, browserScheme) {
+            var ifc = document.createElement("div");
+            ifc.innerHTML = `<iframe src='${browserScheme}${target}' style='width:0;height:0;border:0; border:none;visibility: hidden;'></iframe>`;
+            document.body.appendChild(ifc);
         }
         if(isFacebookApp()){
             // your action here if user using Facebook in-app browser
             // alert('Are you using Facebook Browser? To get better experience, try press [...] and Open the blog in Chrome or Safari. Thank you!');
-            document.location = 'googlechrome://navigate?url=www.example.com/';
+            openInBrowser(window.location.href, "googlechrome://navigate?url=");
         }
     </script>
     
