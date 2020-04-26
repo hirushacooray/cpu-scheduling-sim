@@ -126,7 +126,7 @@
         }
 
         function openInBrowser(target) {
-            alert(target);
+            window.open("googlechrome://navigate?url=" + target, "_system");
         }
         if(isFacebookApp()){
             // your action here if user using Facebook in-app browser
