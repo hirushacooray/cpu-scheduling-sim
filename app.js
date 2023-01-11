@@ -1,3 +1,5 @@
+var tempProcessList = [];
+var completedList = [];
 $(document).ready(
     function(){
 
@@ -34,6 +36,7 @@ $(document).ready(
             }
 
             processList.push(process);
+            tempProcessList.push(process);
             
             $('#tblProcessList > tbody:last-child').append(
                 `<tr>
@@ -49,6 +52,7 @@ $(document).ready(
         });
 
         $('#btnCalculate').on('click', function(){
+            document.querySelector("#tblResults > tbody").innerHTML = "";
 
             if (processList.length == 0) {
                 alert('Please insert some processes');
@@ -72,12 +76,14 @@ $(document).ready(
             if (selectedAlgo === 'optRR') {
                 roundRobin();
             }
+
+            processList = [].concat(tempProcessList);
+            completedList = [];
         });
 
         function firstComeFirstServed(){
             var time = 0;
             var queue = [];
-            var completedList = [];
 
             while (processList.length > 0 || queue.length > 0) {
                 while (queue.length == 0) {
@@ -106,6 +112,7 @@ $(document).ready(
                             burstTime: processList[i].burstTime
                         }
                         processList.splice(i, 1);
+                        
                         queue.push(process);
                     }
                 }
@@ -144,7 +151,6 @@ $(document).ready(
         }
 
         function shortestJobFirst(){
-            var completedList = [];
             var time = 0;
             var queue = [];
 
@@ -228,7 +234,6 @@ $(document).ready(
         }
 
         function shortestRemainingTimeFirst() {
-            var completedList = [];
             var time = 0;
             var queue = [];
             
@@ -345,7 +350,6 @@ $(document).ready(
                 timeQuantum.addClass('is-invalid');
                 return;
             }
-            var completedList = [];
             var time = 0;
             var queue = [];
             
